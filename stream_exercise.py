@@ -47,21 +47,32 @@ class StreamProcessor(object):
 
     def process(self):
         """
-        TODO: Implement the `process` method, as described above.
-        
-        :return: int
+        Read two-digit pairs from the provided stream and add them to a running total.
+        Return the number of two-digit pairs read. Return if the running total is
+        greater than or equal to 200, once the total number of digit pairs read
+        reaches 10, or when the stream runs out. If the stream consists of an odd
+        number of digits, the last digit is not used since it does not constitute
+        a pair.
         """
 
         count = 0  # How many two-digit numbers the `process` method has added
                    # together.
         total = 0  # The running total of sums.
 
-        # TODO: WRITE CODE HERE:
-
-        # Just some example syntax, you can read two digits from the head of the
-        # stream using the following code:
-        #
-        # digits = self._stream.read(2)
-
-
-        return count
+        while True:
+            if count >= 10:
+                # Return if the number of digit pars read reaches 10
+                return count
+            elif total >= 200:
+                # Return if the running total is greater than or equal to 200
+                return count
+            try:
+                digits = self._stream.read(2)
+                if len(digits) < 2:
+                    # Return if only one digit is left in the stream
+                    return count
+                total += int(digits)
+                count += 1
+            except ValueError:
+                # Return if the stream is empty (yields an empty string)
+                return count
