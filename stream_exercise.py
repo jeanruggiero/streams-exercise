@@ -59,20 +59,13 @@ class StreamProcessor(object):
                    # together.
         total = 0  # The running total of sums.
 
-        while True:
-            if count >= 10:
-                # Return if the number of digit pars read reaches 10
+        while count < 10 and total < 200:
+
+            digits = self._stream.read(2)
+            if len(digits) < 2:
+                # Return if there are fewer than two digits remaining in the stream
                 return count
-            elif total >= 200:
-                # Return if the running total is greater than or equal to 200
-                return count
-            try:
-                digits = self._stream.read(2)
-                if len(digits) < 2:
-                    # Return if only one digit is left in the stream
-                    return count
-                total += int(digits)
-                count += 1
-            except ValueError:
-                # Return if the stream is empty (yields an empty string)
-                return count
+            total += int(digits)
+            count += 1
+
+        return count
