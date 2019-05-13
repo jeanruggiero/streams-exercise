@@ -64,7 +64,7 @@ class StreamProcessor(object):
             digits = self._stream.read(2)
             if len(digits) < 2:
                 # Return if there are fewer than two digits remaining in the stream
-                return count
+                break
             total += int(digits)
             count += 1
 
